@@ -139,8 +139,8 @@ const SuccessPage = () => {
 
             <p className="text-sm text-slate-500 mt-6">
               Need help? Contact our support team at{' '}
-              <a href="mailto:support@usdcpay.com" className="text-primary-600 hover:underline">
-                support@usdcpay.com
+              <a href="mailto:support@veloxpay.com" className="text-primary-600 hover:underline">
+                support@veloxpay.com
               </a>
             </p>
           </div>

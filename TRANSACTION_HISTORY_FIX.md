@@ -32,13 +32,13 @@ The frontend was calling `/api/transactions` which requires PostgreSQL database.
 
 1. Make sure backend is running:
    ```cmd
-   cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\backend
+   cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\backend
    npm run dev
    ```
 
 2. Make sure frontend is running:
    ```cmd
-   cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\frontend
+   cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\frontend
    npm run dev
    ```
 

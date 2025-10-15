@@ -1,6 +1,6 @@
-# USDC Payment Frontend
+# VeloxPay - Frontend
 
-React frontend for purchasing USDC via Stripe.
+React frontend for purchasing USDC via Stripe (VeloxPay).
 
 ## Quick Start
 

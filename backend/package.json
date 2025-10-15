@@ -1,7 +1,7 @@
 {
-  "name": "usdc-payment-backend",
+  "name": "veloxpay-backend",
   "version": "1.0.0",
-  "description": "Node.js backend for USDC purchases via Stripe",
+  "description": "VeloxPay backend - USDC purchases via Stripe",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",

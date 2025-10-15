@@ -51,7 +51,7 @@ const CancelPage = () => {
 
             <p className="text-sm text-slate-500 mt-6">
               Need assistance?{' '}
-              <a href="mailto:support@usdcpay.com" className="text-primary-600 hover:underline">
+              <a href="mailto:support@veloxpay.com" className="text-primary-600 hover:underline">
                 Contact Support
               </a>
             </p>

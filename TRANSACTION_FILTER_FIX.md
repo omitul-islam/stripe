@@ -1,4 +1,4 @@
-# Transaction Filter Fix - Complete Solution
+# VeloxPay - Transaction Filter Fix (Complete Solution)
 
 ## Problems Identified
 

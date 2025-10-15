@@ -26,7 +26,7 @@ Press `Win + R`, type `cmd`, press Enter
 
 ### Step 2: Navigate and Start Backend
 ```cmd
-cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\backend
+cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\backend
 npm run dev
 ```
 
@@ -42,7 +42,7 @@ You should see:
 
 ### Step 3: Open ANOTHER Command Prompt for Frontend
 ```cmd
-cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\frontend  
+cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\frontend  
 npm run dev
 ```
 

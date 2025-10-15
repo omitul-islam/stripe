@@ -1,6 +1,6 @@
-# USDC Payment Backend
+# VeloxPay - Backend
 
-Node.js/Express backend for processing USDC purchases via Stripe.
+Node.js/Express backend for processing USDC purchases via Stripe (VeloxPay).
 
 ## Quick Start
 

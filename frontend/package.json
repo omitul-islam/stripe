@@ -1,8 +1,8 @@
 {
-  "name": "usdc-payment-frontend",
+  "name": "veloxpay-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "React frontend for USDC purchases via Stripe",
+  "description": "VeloxPay frontend - Buy USDC with Stripe",
   "dependencies": {
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.2.0",

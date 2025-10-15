@@ -1,6 +1,6 @@
-# USDC Payment System - Stripe Integration
+# VeloxPay - USDC Payment System (Stripe Integration)
 
-A production-ready, full-stack application for purchasing USDC (USD Coin) cryptocurrency using Stripe payments. Features include transaction history, PostgreSQL database persistence, and automated email invoicing via RabbitMQ.
+A production-ready, full-stack application (VeloxPay) for purchasing USDC (USD Coin) cryptocurrency using Stripe payments. Features include transaction history, PostgreSQL database persistence, and automated email invoicing via RabbitMQ.
 
 ## 🚀 Features
 
@@ -18,7 +18,7 @@ A production-ready, full-stack application for purchasing USDC (USD Coin) crypto
 ## 📁 Project Structure
 
 ```
-fastApi_Stripe/
+VeloxPay/
 ├── backend/                 # Node.js/Express backend
 │   ├── src/
 │   │   ├── config/         # Configuration files
@@ -108,7 +108,7 @@ fastApi_Stripe/
 ### 1. Clone the Repository
 
 ```bash
-cd c:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe
+   cd c:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay
 ```
 
 ### 2. Backend Setup

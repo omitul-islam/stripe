@@ -45,7 +45,7 @@ REM Kill all node processes
 taskkill /F /IM node.exe
 
 REM Navigate to backend
-cd c:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\backend
+cd c:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\backend
 
 REM Clear ts-node cache
 rmdir /s /q node_modules\.ts-node 2>nul
@@ -60,7 +60,7 @@ Open **PowerShell** or **CMD** in the backend directory:
 
 ```bash
 # CD to backend
-cd c:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\backend
+cd c:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\backend
 
 # Start server
 npm run dev

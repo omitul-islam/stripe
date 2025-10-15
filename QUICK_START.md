@@ -15,7 +15,7 @@
 Open a **new CMD terminal** and run:
 
 ```cmd
-cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\backend
+cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\backend
 npm run dev
 ```
 
@@ -37,7 +37,7 @@ You should see:
 Open a **second CMD terminal** and run:
 
 ```cmd
-cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\frontend
+cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\frontend
 npm run dev
 ```
 
@@ -118,7 +118,7 @@ SMTP_PASSWORD=your-app-password
 
 Then start the email worker:
 ```cmd
-cd C:\Users\BS00735\Pictures\Screenshots\Projects\fastApi_Stripe\backend
+cd C:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay\backend
 npm run worker
 ```
 

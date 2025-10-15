@@ -41,8 +41,8 @@ const HomePage = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
-                USDC Pay
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+                VeloxPay
               </h1>
             </div>
             <nav className="hidden md:flex space-x-6">
@@ -219,8 +219,8 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-8">
         <div className="container mx-auto px-4">
-          <div className="text-center text-slate-600">
-            <p>© 2025 USDC Pay. Powered by Stripe. All rights reserved.</p>
+            <div className="text-center text-slate-600">
+            <p>© 2025 VeloxPay. Powered by Stripe. All rights reserved.</p>
           </div>
         </div>
       </footer>
