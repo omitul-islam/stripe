@@ -192,7 +192,7 @@ export const handleWebhook = async (
 
     // Handle different event types
     switch (event.type) {
-      case 'payment_intent.succeeded':
+      case 'payment_intent.succeeded': 
         const paymentIntent = event.data.object;
         console.log(`Payment succeeded: ${paymentIntent.id}`);
         
