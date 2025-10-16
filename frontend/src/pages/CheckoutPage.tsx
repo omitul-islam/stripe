@@ -6,6 +6,9 @@ import { ArrowLeft, Loader2, DollarSign } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { createPaymentIntent } from '../services/api';
 
+// Initialize Stripe outside component to prevent recreation on every render
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
+
 const CheckoutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -14,7 +17,6 @@ const CheckoutPage = () => {
   const { amount, email } = location.state || {};
 
   const [clientSecret, setClientSecret] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
@@ -43,10 +45,6 @@ const CheckoutPage = () => {
 
     initializePayment();
   }, [amount, email, navigate]);
-
-  // We'll handle submit in CheckoutForm which has access to stripe/elements
-
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
 
   if (isInitializing) {
     return (

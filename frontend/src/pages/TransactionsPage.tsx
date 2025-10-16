@@ -71,7 +71,7 @@ const TransactionsPage: React.FC = () => {
           usdc_amount: pi.metadata?.usdcAmount ? parseFloat(pi.metadata.usdcAmount) : pi.amount / 100,
           currency: pi.currency,
           status: pi.status,
-          customer_email: pi.metadata?.customer_email || pi.receipt_email,
+          customer_email: pi.receipt_email || pi.metadata?.customer_email, // Fix: check receipt_email first
           customer_name: pi.metadata?.customer_name,
           created_at: new Date(pi.created * 1000).toISOString(),
           updated_at: new Date(pi.created * 1000).toISOString(),

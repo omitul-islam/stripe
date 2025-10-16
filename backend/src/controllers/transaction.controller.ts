@@ -67,49 +67,54 @@ export const getStripeTransactions = async (req: Request, res: Response) => {
   try {
     const { customer_email, status, limit = '50' } = req.query;
 
-    const parsedLimit = parseInt(limit as string, 10);
+    const parsedLimit = Math.min(parseInt(limit as string, 10) || 50, 100);
 
-    // If customer_email OR status provided, use Stripe Search API
-    if (customer_email || status) {
-      const queryParts: string[] = [];
-      
-      if (status) {
-        queryParts.push(`status:'${status}'`);
-      }
-      
-      if (customer_email) {
-        queryParts.push(`metadata['customer_email']:'${customer_email}'`);
-      }
+    console.log('Fetching transactions with filters:', { customer_email, status, limit: parsedLimit });
 
-      const searchQuery = queryParts.join(' AND ');
+    // Stripe PaymentIntents list API - no status filter available, we'll filter client-side
+    const listParams: any = { 
+      limit: parsedLimit,
+      expand: ['data.charges'] // Get more payment details
+    };
 
-      const paymentIntents = await stripeService.paymentIntents.search({
-        query: searchQuery,
-        limit: parsedLimit,
-      });
+    console.log('Stripe list params:', listParams);
 
-      return res.json({
-        success: true,
-        data: paymentIntents.data,
-        has_more: paymentIntents.has_more,
-      });
-    } else {
-      // List all payment intents (no filters)
-      const paymentIntents = await stripeService.paymentIntents.list({
-        limit: parsedLimit,
-      });
+    const paymentIntents = await stripeService.paymentIntents.list(listParams);
 
-      return res.json({
-        success: true,
-        data: paymentIntents.data,
-        has_more: paymentIntents.has_more,
-      });
+    console.log(`Found ${paymentIntents.data.length} payment intents from Stripe`);
+
+    let filteredData = paymentIntents.data;
+
+    // Apply status filter client-side if provided
+    if (status && status !== '') {
+      const statusToSearch = (status as string).toLowerCase().trim();
+      filteredData = filteredData.filter((pi: any) => 
+        pi.status.toLowerCase() === statusToSearch
+      );
+      console.log(`After status filter: ${filteredData.length} transactions`);
     }
+
+    // Apply email filter client-side if provided
+    if (customer_email && customer_email !== '') {
+      const emailToSearch = (customer_email as string).toLowerCase().trim();
+      filteredData = filteredData.filter((pi: any) => {
+        const receiptEmail = pi.receipt_email?.toLowerCase();
+        const metadataEmail = pi.metadata?.customer_email?.toLowerCase();
+        return receiptEmail === emailToSearch || metadataEmail === emailToSearch;
+      });
+      console.log(`After email filter: ${filteredData.length} transactions`);
+    }
+
+    return res.json({
+      success: true,
+      data: filteredData,
+      has_more: paymentIntents.has_more,
+    });
   } catch (error: any) {
-    console.error('Error fetching Stripe transactions:', error);
+    console.error('Error fetching Stripe transactions:', error.message, error.stack);
     return res.status(500).json({
       success: false,
-      error: 'Failed to fetch Stripe transactions',
+      error: `Failed to fetch Stripe transactions: ${error.message}`,
     });
   }
 };

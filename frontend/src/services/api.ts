@@ -83,6 +83,7 @@ export const getPaymentIntent = async (paymentIntentId: string) => {
  */
 export const getTransactions = async (params?: {
   customer_email?: string;
+  status?: string;
   limit?: number;
 }) => {
   const response = await api.get('/transactions/stripe', { params });
