@@ -1,0 +1,66 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request: 
+        branches: [main]
+
+jobs: 
+    backend:
+        name: backend install and test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+              
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'npm'
+            - name: Install Backend dependencies
+              run: npm install
+              working-directory: ./backend
+
+            - name: Backend Lint
+              run: npm run lint --if-present
+              working-directory: ./backend
+              
+            - name: Backend build
+              run: npm run build --if-present
+              working-directory: ./backend
+            
+            - name: Backend test
+              run: npm test --if-present
+              working-directory: ./backend
+    
+    frontend:
+        name: frontend install and test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Use Node.js 
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'npm'
+            - name: Install Frontend dependencies
+              run: npm ci
+              working-directory: ./frontend  
+              
+            - name: Frontend Lint
+              run: npm run lint --if-present
+              working-directory: ./frontend
+            
+            - name: Frontend build 
+              run: npm run build --if-present
+              working-directory: ./frontend
+
+            - name: Upload frontend build artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                  name: frontend-dist
+                  path: ./frontend/dist
