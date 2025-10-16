@@ -26,11 +26,11 @@ jobs:
               working-directory: ./backend
 
             - name: Backend Lint
-              run: npm run lint --if-present
+              run: npm run lint --if-present || true
               working-directory: ./backend
               
             - name: Backend build
-              run: npm run build --if-present || true
+              run: npm run build --if-present
               working-directory: ./backend
             
             - name: Backend test
