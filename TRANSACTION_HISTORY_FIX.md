@@ -1,4 +1,4 @@
-# Transaction History Issue - FIXED ✅
+# Transaction History Issue 
 
 ## Problem Identified
 
