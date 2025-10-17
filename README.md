@@ -1,205 +1,189 @@
-# VeloxPay - USDC Payment System (Stripe Integration)
+# 🚀 Stripe Payment System
 
-A production-ready, full-stack application (VeloxPay) for purchasing USDC (USD Coin) cryptocurrency using Stripe payments. Features include transaction history, PostgreSQL database persistence, and automated email invoicing via RabbitMQ.
+A modern, production-ready full-stack payment processing system with React frontend, Node.js backend, PostgreSQL database, and Stripe integration.
 
-## 🚀 Features
+## ⚡ Quick Start
 
-- **Secure Stripe Payment Integration** - Official Stripe Payment Intents API
-- **Modern React Frontend** - Built with TypeScript, Tailwind CSS, and React Router
-- **RESTful API Backend** - Express.js with TypeScript
-- **Real-time Payment Processing** - Instant USDC purchases
-- **Transaction History** - View all payment transactions with filtering and pagination
-- **PostgreSQL Database** - Persistent transaction storage
-- **Email Notifications** - Automated invoice emails via RabbitMQ
-- **Responsive Design** - Beautiful UI that works on all devices
-- **Webhook Support** - Automated payment confirmations and database updates
-- **Type-Safe** - Full TypeScript support across the stack
+```bash
+# Install all dependencies
+npm install
 
-## 📁 Project Structure
-
+# Start both backend and frontend (recommended)
+npm run dev
 ```
-VeloxPay/
-├── backend/                 # Node.js/Express backend
-│   ├── src/
-│   │   ├── config/         # Configuration files
-│   │   │   ├── index.ts    # Main config
-│   │   │   └── database.ts # Database connection
-│   │   ├── controllers/    # Request handlers
-│   │   │   ├── payment.controller.ts
-│   │   │   └── transaction.controller.ts
-│   │   ├── database/       # Database schemas
-│   │   │   └── schema.sql  # PostgreSQL schema
-│   │   ├── middleware/     # Custom middleware
-│   │   ├── routes/         # API routes
-│   │   │   ├── payment.routes.ts
-│   │   │   └── transaction.routes.ts
-│   │   ├── services/       # Business logic
-│   │   │   ├── stripe.service.ts
-│   │   │   ├── payment.service.ts
-│   │   │   ├── transaction.service.ts
-│   │   │   ├── queue.service.ts
-│   │   │   └── email.service.ts
-│   │   ├── workers/        # Background workers
-│   │   │   └── email.worker.ts
-│   │   ├── app.ts          # Express app setup
-│   │   └── server.ts       # Server entry point
-│   ├── .env                # Environment variables
-│   ├── package.json        # Dependencies
-│   └── tsconfig.json       # TypeScript configuration
-│
-└── frontend/               # React frontend
-    ├── src/
-    │   ├── pages/          # Page components
-    │   │   ├── HomePage.tsx
-    │   │   ├── CheckoutPage.tsx
-    │   │   ├── SuccessPage.tsx
-    │   │   ├── CancelPage.tsx
-    │   │   └── TransactionsPage.tsx
-    │   ├── services/       # API integration
-    │   ├── App.tsx         # Main app component
-    │   ├── main.tsx        # Entry point
-    │   └── index.css       # Global styles
-    ├── .env                # Environment variables
-    ├── package.json        # Dependencies
-    ├── tailwind.config.js  # Tailwind CSS config
-    └── vite.config.ts      # Vite configuration
-```
+
+That's it! The app will be running at:
+- **Frontend:** http://localhost:5173 (or http://localhost:3000)
+- **Backend:** http://localhost:5000
+- **API:** http://localhost:5000/api
+
+## 📋 Prerequisites
+
+- **Node.js 18+** and npm
+- **PostgreSQL** (optional - for transaction persistence)
+- **Stripe Account** - Get your test API keys from [Stripe Dashboard](https://dashboard.stripe.com/test/apikeys)
 
 ## 🛠️ Technology Stack
 
 ### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web framework
-- **TypeScript** - Type safety
+- **Node.js** + **Express** + **TypeScript**
 - **Stripe SDK** - Payment processing
-- **PostgreSQL** - Database
-- **pg** - PostgreSQL client
-- **RabbitMQ** - Message queue
-- **amqplib** - RabbitMQ client
-- **Nodemailer** - Email service
-- **Helmet** - Security middleware
-- **CORS** - Cross-origin resource sharing
-- **Morgan** - HTTP request logger
-- **Stripe SDK** - Payment processing
-- **Express Validator** - Input validation
+- **PostgreSQL** + **pg** - Database (optional)
+- **RabbitMQ** + **amqplib** - Message queue (optional)
+- **Nodemailer** - Email notifications (optional)
 - **Helmet** - Security headers
-- **CORS** - Cross-origin resource sharing
-- **Morgan** - HTTP request logger
+- **CORS** - Cross-origin support
 
 ### Frontend
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
+- **React 18** + **TypeScript**
+- **Vite** - Build tool
 - **React Router** - Client-side routing
 - **Stripe React** - Official Stripe components
-- **Tailwind CSS** - Utility-first CSS
+- **TailwindCSS** - Styling
 - **Axios** - HTTP client
-- **React Hot Toast** - Toast notifications
-- **Lucide React** - Icon library
+- **React Hot Toast** - Notifications
+- **Lucide React** - Icons
 
-## 📋 Prerequisites
+### DevOps
+- **Concurrently** - Run multiple processes
+- **PM2** - Production process manager
+- **Nginx** - Reverse proxy (production)
 
-- Node.js 18+ and npm/yarn
-- Stripe account (get your API keys from https://dashboard.stripe.com/apikeys)
-- Git
+## 📁 Project Structure
 
-## 🚦 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-   cd c:\Users\BS00735\Pictures\Screenshots\Projects\VeloxPay
+```
+stripe/
+├── backend/                  # Node.js/Express API
+│   ├── src/
+│   │   ├── config/          # Database & environment config
+│   │   ├── controllers/     # Request handlers
+│   │   ├── services/        # Business logic (Stripe, email, queue)
+│   │   ├── routes/          # API routes
+│   │   ├── middleware/      # Error handling, validation
+│   │   ├── workers/         # Background email worker
+│   │   └── database/        # SQL schema
+│   └── .env                 # Backend environment variables
+│
+├── frontend/                 # React application
+│   ├── src/
+│   │   ├── pages/           # HomePage, CheckoutPage, TransactionsPage
+│   │   ├── services/        # API client
+│   │   └── App.tsx          # Main app component
+│   └── .env                 # Frontend environment variables
+│
+├── scripts/                  # Development scripts
+│   ├── start-dev.sh         # Bash startup script
+│   └── start-dev.ps1        # PowerShell startup script
+│
+├── deploy/                   # Production deployment
+│   ├── nginx.conf           # Nginx reverse proxy config
+│   └── DEPLOYMENT.md        # Deployment guide
+│
+└── package.json             # Root scripts (npm run dev)
 ```
 
-### 2. Backend Setup
+## 🔧 Setup
+
+### 1. Install Dependencies
 
 ```bash
-# Navigate to backend directory
-cd backend
-
-# Install dependencies
+# Install root dependencies (concurrently)
 npm install
 
-# Copy environment variables
-copy .env.example .env
-
-# Edit .env and add your Stripe keys
-# STRIPE_SECRET_KEY=sk_test_...
-# STRIPE_PUBLISHABLE_KEY=pk_test_...
+# Or install everything at once
+npm run install:all
 ```
 
-**Backend Environment Variables:**
+### 2. Configure Environment Variables
+
+**Backend** (`backend/.env`):
 ```env
-STRIPE_SECRET_KEY=sk_test_your_secret_key_here
-STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key_here
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+# Stripe Keys (REQUIRED)
+STRIPE_SECRET_KEY=sk_test_51SI51E...your_key_here
+STRIPE_PUBLISHABLE_KEY=pk_test_51SI51E...your_key_here
+
+# Server Config
 PORT=5000
 NODE_ENV=development
-USDC_EXCHANGE_RATE=1.00
-USDC_WALLET_ADDRESS=your_usdc_wallet_address_here
 FRONTEND_URL=http://localhost:3000
+
+# Database (Optional - PostgreSQL)
+DATABASE_URL=postgresql://postgres:password@localhost:5432/stripe_payments
+DATABASE_SSL=false
+
+# Email (Optional - for invoice emails)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# RabbitMQ (Optional - for email queue)
+RABBITMQ_URL=amqp://localhost:5672
 ```
 
-**Start the backend:**
-```bash
-# Development mode with hot reload
-npm run dev
-
-# Production build
-npm run build
-npm start
-```
-
-The backend will start on http://localhost:5000
-
-### 3. Frontend Setup
-
-Open a new terminal:
-
-```bash
-# Navigate to frontend directory
-cd frontend
-
-# Install dependencies
-npm install
-
-# Copy environment variables
-copy .env.example .env
-
-# Edit .env and add your Stripe publishable key
-# VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
-```
-
-**Frontend Environment Variables:**
+**Frontend** (`frontend/.env`):
 ```env
 VITE_API_URL=http://localhost:5000/api
-VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51SI51E...your_key_here
 ```
 
-**Start the frontend:**
+### 3. Database Setup (Optional)
+
+If using PostgreSQL for transaction persistence:
+
 ```bash
-# Development mode
-npm run dev
+# Create database
+createdb stripe_payments
 
-# Production build
-npm run build
-npm run preview
+# Import schema
+psql -d stripe_payments -f backend/src/database/schema.sql
 ```
 
-The frontend will start on http://localhost:3000
+For detailed pgAdmin setup, see [PGADMIN_SETUP.md](PGADMIN_SETUP.md)
 
-### 4. Configure Stripe Webhooks (Optional for local development)
+## 🚀 Development
 
-1. Install Stripe CLI: https://stripe.com/docs/stripe-cli
-2. Login to Stripe CLI:
-   ```bash
-   stripe login
-   ```
-3. Forward webhooks to your local server:
-   ```bash
-   stripe listen --forward-to localhost:5000/api/webhooks/stripe
-   ```
-4. Copy the webhook signing secret and add it to your `.env` file
+### Option 1: Single Command (Recommended)
+
+```bash
+npm run dev
+```
+
+This starts both backend and frontend concurrently using `concurrently`.
+
+### Option 2: Separate Terminals
+
+```bash
+# Terminal 1 - Backend
+npm run dev:backend
+
+# Terminal 2 - Frontend
+npm run dev:frontend
+```
+
+### Option 3: Platform-Specific Scripts
+
+**Windows (PowerShell):**
+```powershell
+.\scripts\start-dev.ps1
+```
+
+**Linux/Mac (Bash):**
+```bash
+./scripts/start-dev.sh
+```
+
+## 🎨 Features
+
+✅ **Secure Stripe Payment Processing** - Payment Intents API  
+✅ **Customer Name Collection** - Captured during checkout  
+✅ **Transaction History** - View all payments with filters  
+✅ **Email Search** - Search transactions by customer email (Enter to search)  
+✅ **Stripe Sync** - Sync transactions from Stripe to database  
+✅ **Real-time Updates** - Instant payment confirmations  
+✅ **Responsive Design** - Works on all devices  
+✅ **Type-Safe** - Full TypeScript coverage  
+✅ **Production Ready** - Nginx config, PM2 support, SSL/TLS  
 
 ## 🔑 API Endpoints
 
@@ -207,146 +191,117 @@ The frontend will start on http://localhost:3000
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/payments/config` | Get Stripe publishable key |
-| POST | `/api/payments/create-payment-intent` | Create new payment intent |
-| GET | `/api/payments/:paymentIntentId` | Get payment intent details |
-| POST | `/api/payments/:paymentIntentId/confirm` | Confirm payment intent |
-| POST | `/api/payments/:paymentIntentId/cancel` | Cancel payment intent |
+| POST | `/api/payments/create-payment-intent` | Create new payment |
 | POST | `/api/webhooks/stripe` | Stripe webhook handler |
 
-### Example API Request
+### Transaction Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/transactions` | Get all transactions (with filters) |
+| POST | `/api/transactions/sync` | Sync transactions from Stripe |
+
+### Example Request
 
 ```javascript
-// Create Payment Intent
 POST /api/payments/create-payment-intent
 Content-Type: application/json
 
 {
   "amount": 100.00,
-  "currency": "usd",
-  "customerEmail": "user@example.com"
-}
-
-// Response
-{
-  "success": true,
-  "data": {
-    "clientSecret": "pi_xxx_secret_xxx",
-    "paymentIntentId": "pi_xxx",
-    "amount": 100.00,
-    "usdcAmount": 100.00
-  }
+  "customerEmail": "user@example.com",
+  "customerName": "John Doe"
 }
 ```
 
-## 🎨 Frontend Pages
-
-- **Home Page** (`/`) - Purchase form and feature showcase
-- **Checkout Page** (`/checkout`) - Stripe payment form
-- **Success Page** (`/success`) - Payment confirmation
-- **Cancel Page** (`/cancel`) - Payment cancellation
-
-## 🔒 Security Features
-
-- HTTPS required in production
-- Helmet.js security headers
-- CORS configuration
-- Input validation with express-validator
-- Stripe webhook signature verification
-- Environment variable protection
-- TypeScript type safety
-
-## 🧪 Testing Stripe Payments
+## 🧪 Testing
 
 Use Stripe test cards:
-- **Success:** 4242 4242 4242 4242
-- **Decline:** 4000 0000 0000 0002
-- **3D Secure:** 4000 0027 6000 3184
+- **Success:** `4242 4242 4242 4242`
+- **Decline:** `4000 0000 0000 0002`
+- **3D Secure:** `4000 0027 6000 3184`
 
-Use any future expiry date, any 3-digit CVC, and any postal code.
+Use any future expiry date, any 3-digit CVC, and any ZIP code.
 
-More test cards: https://stripe.com/docs/testing
+More test cards: [Stripe Testing Docs](https://stripe.com/docs/testing)
 
 ## 📦 Production Deployment
 
-### Backend Deployment (Heroku, Railway, etc.)
+For comprehensive deployment instructions, see [deploy/DEPLOYMENT.md](deploy/DEPLOYMENT.md)
 
-1. Set environment variables in your hosting platform
-2. Build the TypeScript code:
-   ```bash
-   npm run build
-   ```
-3. Start the server:
-   ```bash
-   npm start
-   ```
+### Quick Production Build
 
-### Frontend Deployment (Vercel, Netlify, etc.)
+```bash
+# Build backend
+cd backend
+npm run build
 
-1. Build the production bundle:
-   ```bash
-   npm run build
-   ```
-2. Deploy the `dist` folder
-3. Set environment variables:
-   - `VITE_API_URL` - Your backend API URL
-   - `VITE_STRIPE_PUBLISHABLE_KEY` - Your Stripe publishable key
-
-### Important: Update Stripe Webhook URL
-
-In production, update your Stripe webhook endpoint in the Stripe Dashboard to point to your production URL:
+# Build frontend
+cd frontend
+npm run build
 ```
-https://your-backend-url.com/api/webhooks/stripe
+
+### Production Start
+
+```bash
+# Backend (with PM2)
+cd backend
+pm2 start npm --name "stripe-backend" -- start
+
+# Frontend (serve static files with Nginx)
+# See deploy/nginx.conf for configuration
 ```
+
+### Nginx Setup
+
+Copy `deploy/nginx.conf` to `/etc/nginx/sites-available/` and configure SSL with Let's Encrypt. See [deploy/DEPLOYMENT.md](deploy/DEPLOYMENT.md) for details.
 
 ## 🐛 Troubleshooting
 
 ### Backend won't start
-- Check that all environment variables are set
+- Check Stripe API keys are set in `backend/.env`
 - Ensure port 5000 is not in use
-- Verify Stripe API keys are correct
+- Verify PostgreSQL is running (if using database)
 
-### Frontend can't connect to backend
-- Verify `VITE_API_URL` is correct
-- Check CORS settings in backend
-- Ensure backend is running
+### Frontend can't connect
+- Verify `VITE_API_URL` in `frontend/.env`
+- Check backend is running on port 5000
+- Review CORS errors in browser console
 
-### Stripe payments failing
-- Verify Stripe publishable key in frontend
-- Check Stripe secret key in backend
-- Use test cards from Stripe documentation
-- Check browser console for errors
+### Database connection fails
+- Check PostgreSQL is running: `pg_isready`
+- Verify `DATABASE_URL` credentials
+- See [PGADMIN_SETUP.md](PGADMIN_SETUP.md) for troubleshooting
 
-## 📚 Resources
+### Payments not working
+- Verify Stripe publishable key in frontend `.env`
+- Check Stripe secret key in backend `.env`
+- Use test cards from Stripe docs
+- Check browser console for Stripe errors
 
-- [Stripe Documentation](https://stripe.com/docs)
-- [Stripe Payment Intents API](https://stripe.com/docs/payments/payment-intents)
-- [Stripe Webhooks](https://stripe.com/docs/webhooks)
-- [React Documentation](https://react.dev)
-- [Express.js Guide](https://expressjs.com)
+## 📚 Additional Documentation
+
+- [PGADMIN_SETUP.md](PGADMIN_SETUP.md) - PostgreSQL & pgAdmin setup guide
+- [deploy/DEPLOYMENT.md](deploy/DEPLOYMENT.md) - Production deployment guide
+- [DEVELOPMENT.md](DEVELOPMENT.md) - Development workflow details
+
+## 🎯 Roadmap
+
+- [x] Customer name collection
+- [x] Transaction sync from Stripe
+- [x] Email search with Enter key
+- [x] Production Nginx configuration
+- [x] Development startup scripts
+- [ ] User authentication
+- [ ] Invoice PDF generation
+- [ ] Subscription payments
+- [ ] Multi-currency support
+- [ ] Admin dashboard
 
 ## 📄 License
 
-MIT License - feel free to use this project for your own purposes
-
-## 🤝 Support
-
-For questions or issues:
-- Open an issue on GitHub
-- Check Stripe documentation
-- Review the code comments
-
-## 🎯 Next Steps / Enhancements
-
-- [ ] Add user authentication
-- [ ] Implement actual USDC blockchain transfer
-- [ ] Add transaction history
-- [ ] Support multiple cryptocurrencies
-- [ ] Add email notifications
-- [ ] Implement rate limiting
-- [ ] Add comprehensive testing
-- [ ] Set up CI/CD pipeline
+MIT License
 
 ---
 
-Built with ❤️ using Stripe, React, and Node.js
+Built with ❤️ using Stripe, React, Node.js, and TypeScript

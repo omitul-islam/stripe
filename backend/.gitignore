@@ -32,3 +32,8 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+
+# SSL certificates (if stored locally)
+*.pem
+*.key
+*.crt
