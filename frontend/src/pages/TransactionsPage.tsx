@@ -33,6 +33,8 @@ const TransactionsPage: React.FC = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState('');
   const [filters, setFilters] = useState({
     customer_email: '',
     status: '',
@@ -102,6 +104,28 @@ const TransactionsPage: React.FC = () => {
     setPagination((prev) => ({ ...prev, page: newPage }));
   };
 
+  const syncToDatabase = async () => {
+    try {
+      setSyncing(true);
+      setSyncMessage('');
+      setError('');
+
+      const response = await api.post('/transactions/sync?limit=100');
+
+      if (response.data.success) {
+        setSyncMessage(
+          `✅ Synced ${response.data.data.synced} new, updated ${response.data.data.updated} existing transactions`
+        );
+        // Refresh the transaction list after syncing
+        await fetchTransactions();
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to sync transactions to database');
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'succeeded':
@@ -149,13 +173,36 @@ const TransactionsPage: React.FC = () => {
             <h1 className="text-4xl font-bold text-gray-900">Transaction History</h1>
             <p className="mt-2 text-gray-600">View all your USDC purchase transactions</p>
           </div>
-          <button
-            onClick={() => navigate('/')}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            ← Back to Home
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={syncToDatabase}
+              disabled={syncing}
+              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {syncing ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                  Syncing...
+                </>
+              ) : (
+                '🔄 Sync to Database'
+              )}
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              ← Back to Home
+            </button>
+          </div>
         </div>
+
+        {/* Sync Success Message */}
+        {syncMessage && (
+          <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+            <p className="text-green-800">{syncMessage}</p>
+          </div>
+        )}
 
         {/* Filters */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">

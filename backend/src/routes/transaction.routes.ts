@@ -11,6 +11,13 @@ const router = Router();
 router.get('/', transactionController.getTransactions);
 
 /**
+ * POST /api/transactions/sync
+ * Sync Stripe transactions to database
+ * Query params: limit (default 100, max 100)
+ */
+router.post('/sync', transactionController.syncStripeTransactions);
+
+/**
  * GET /api/transactions/stripe
  * Get transaction history from Stripe API
  * Query params: customer_email, limit

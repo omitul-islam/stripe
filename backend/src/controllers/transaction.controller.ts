@@ -118,3 +118,87 @@ export const getStripeTransactions = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const syncStripeTransactions = async (req: Request, res: Response) => {
+  try {
+    const { limit = '100' } = req.query;
+    const parsedLimit = Math.min(parseInt(limit as string, 10) || 100, 100);
+
+    console.log('Syncing Stripe transactions to database...');
+
+    // Fetch all payment intents from Stripe
+    const paymentIntents = await stripeService.paymentIntents.list({
+      limit: parsedLimit,
+      expand: ['data.charges']
+    });
+
+    console.log(`Found ${paymentIntents.data.length} payment intents from Stripe`);
+
+    let synced = 0;
+    let updated = 0;
+    let skipped = 0;
+    const errors: string[] = [];
+
+    // Save each payment intent to database
+    for (const pi of paymentIntents.data) {
+      try {
+        // Check if transaction already exists
+        const existing = await transactionService.getTransaction(pi.id);
+
+        const usdcAmount = pi.metadata?.usdc_amount 
+          ? parseFloat(pi.metadata.usdc_amount) 
+          : pi.amount / 100;
+
+        const transactionData = {
+          payment_intent_id: pi.id,
+          amount: pi.amount,
+          usdc_amount: usdcAmount,
+          currency: pi.currency,
+          status: pi.status,
+          customer_email: pi.receipt_email || pi.metadata?.customer_email,
+          customer_name: pi.metadata?.customer_name,
+          metadata: pi.metadata,
+        };
+
+        if (existing) {
+          // Update existing transaction
+          await transactionService.updateTransaction(pi.id, {
+            status: pi.status,
+            customer_email: transactionData.customer_email,
+            customer_name: transactionData.customer_name,
+            metadata: pi.metadata,
+          });
+          updated++;
+          console.log(`Updated transaction: ${pi.id}`);
+        } else {
+          // Create new transaction
+          await transactionService.createTransaction(transactionData);
+          synced++;
+          console.log(`Synced new transaction: ${pi.id}`);
+        }
+      } catch (error: any) {
+        console.error(`Error syncing transaction ${pi.id}:`, error.message);
+        errors.push(`${pi.id}: ${error.message}`);
+        skipped++;
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: 'Stripe transactions synced to database',
+      data: {
+        total: paymentIntents.data.length,
+        synced,
+        updated,
+        skipped,
+        errors: errors.length > 0 ? errors : undefined,
+      },
+    });
+  } catch (error: any) {
+    console.error('Error syncing Stripe transactions:', error.message, error.stack);
+    return res.status(500).json({
+      success: false,
+      error: `Failed to sync Stripe transactions: ${error.message}`,
+    });
+  }
+};

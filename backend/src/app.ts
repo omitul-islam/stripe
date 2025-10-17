@@ -36,10 +36,26 @@ export const initializeConnections = async () => {
 // Security middleware
 app.use(helmet());
 
-// CORS configuration
+// CORS configuration - allow both 3000 and 3001 for development
+const allowedOrigins = [
+  config.frontendUrl,
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5173', // Vite default
+];
+
 app.use(
   cors({
-    origin: config.frontendUrl,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) !== -1 || config.nodeEnv === 'development') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
