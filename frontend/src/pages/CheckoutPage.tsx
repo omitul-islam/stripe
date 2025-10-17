@@ -14,7 +14,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   // stripe and elements will be provided inside the CheckoutForm via Elements
 
-  const { amount, email } = location.state || {};
+  const { amount, email, name } = location.state || {};
 
   const [clientSecret, setClientSecret] = useState<string>('');
   const [isInitializing, setIsInitializing] = useState(true);
@@ -33,6 +33,7 @@ const CheckoutPage = () => {
           amount,
           currency: 'usd',
           customerEmail: email,
+          customerName: name,
         });
 
         setClientSecret(data.clientSecret);

@@ -46,6 +46,10 @@ export const createPaymentIntent = [
     .optional()
     .isEmail()
     .withMessage('Invalid email address'),
+  body('customerName')
+    .optional()
+    .isString()
+    .withMessage('Invalid customer name'),
 
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -58,12 +62,13 @@ export const createPaymentIntent = [
         );
       }
 
-      const { amount, currency, customerEmail } = req.body;
+      const { amount, currency, customerEmail, customerName } = req.body;
 
       const result = await paymentService.createPaymentIntent({
         amount,
         currency,
         customerEmail,
+        customerName,
       });
 
       res.status(200).json({

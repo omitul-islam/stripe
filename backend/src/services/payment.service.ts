@@ -7,6 +7,7 @@ export interface CreatePaymentIntentParams {
   amount: number;
   currency?: string;
   customerEmail?: string;
+  customerName?: string;
 }
 
 export interface PaymentIntentResult {
@@ -24,7 +25,7 @@ export interface PaymentIntentResult {
 export const createPaymentIntent = async (
   params: CreatePaymentIntentParams
 ): Promise<PaymentIntentResult> => {
-  const { amount, currency = 'usd', customerEmail } = params;
+  const { amount, currency = 'usd', customerEmail, customerName } = params;
 
   // Validate amount
   if (amount < 0.50) {
@@ -53,6 +54,7 @@ export const createPaymentIntent = async (
         usdcAmount: usdcAmount.toString(),
         walletAddress: config.usdc.walletAddress || 'pending',
         purchaseType: 'usdc',
+        customer_name: customerName || null,
       },
       description: `USDC Purchase - ${usdcAmount.toFixed(2)} USDC`,
       receipt_email: customerEmail,

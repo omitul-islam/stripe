@@ -7,6 +7,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState<string>('100');
   const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
 
   const handlePurchase = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +29,12 @@ const HomePage = () => {
       return;
     }
 
-    navigate('/checkout', { state: { amount: numAmount, email } });
+    if (name && name.trim().length === 0) {
+      toast.error('If provided, name cannot be empty');
+      return;
+    }
+
+  navigate('/checkout', { state: { amount: numAmount, email, name } });
   };
 
   return (
@@ -174,6 +180,20 @@ const HomePage = () => {
                     <p className="text-sm text-slate-500 mt-2">
                       Receive payment confirmation via email
                     </p>
+                  </div>
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                      Full name (optional)
+                    </label>
+                    <input
+                      id="name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="input-field"
+                      placeholder="Your full name"
+                    />
+                    <p className="text-sm text-slate-500 mt-2">Name will appear on transaction details</p>
                   </div>
                 </div>
 

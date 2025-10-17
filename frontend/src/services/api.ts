@@ -34,6 +34,7 @@ export interface CreatePaymentIntentRequest {
   amount: number;
   currency?: string;
   customerEmail?: string;
+  customerName?: string;
 }
 
 export interface CreatePaymentIntentResponse {
