@@ -39,6 +39,7 @@ const TransactionsPage: React.FC = () => {
     customer_email: '',
     status: '',
   });
+  const [customerEmailInput, setCustomerEmailInput] = useState(filters.customer_email);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
   useEffect(() => {
@@ -96,7 +97,25 @@ const TransactionsPage: React.FC = () => {
   };
 
   const handleFilterChange = (key: string, value: string) => {
+    // Only apply immediate filter for fields other than customer_email
+    if (key === 'customer_email') {
+      // Update the input box only; apply when user presses Enter or clicks Search
+      setCustomerEmailInput(value);
+      return;
+    }
+
     setFilters((prev) => ({ ...prev, [key]: value }));
+    setPagination((prev) => ({ ...prev, page: 1 }));
+  };
+
+  const applyEmailFilter = () => {
+    setFilters((prev) => ({ ...prev, customer_email: customerEmailInput.trim() }));
+    setPagination((prev) => ({ ...prev, page: 1 }));
+  };
+
+  const clearEmailFilter = () => {
+    setCustomerEmailInput('');
+    setFilters((prev) => ({ ...prev, customer_email: '' }));
     setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
@@ -209,16 +228,31 @@ const TransactionsPage: React.FC = () => {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Filters</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Customer Email
-              </label>
-              <input
-                type="email"
-                value={filters.customer_email}
-                onChange={(e) => handleFilterChange('customer_email', e.target.value)}
-                placeholder="Filter by email..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
+              <label className="block text-sm font-medium text-gray-700 mb-2">Customer Email</label>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  value={customerEmailInput}
+                  onChange={(e) => setCustomerEmailInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') applyEmailFilter();
+                  }}
+                  placeholder="Filter by email... (press Enter or click Search)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+                <button
+                  onClick={applyEmailFilter}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                >
+                  Search
+                </button>
+                <button
+                  onClick={clearEmailFilter}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                >
+                  Clear
+                </button>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
